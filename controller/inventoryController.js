@@ -1,8 +1,8 @@
-const asyncHandler = require("express-async-handler")
+import asyncHandler from "express-async-handler"
 //@desc Get all the inventory
 //@route GET /api/inventory
 //@access public
-const getInventory = asyncHandler(async(req, res) => {
+const getInventory = asyncHandler(async (req, res) => {
     res.status(200).json({ message: "Get all inventory" })
 })
 
@@ -11,8 +11,8 @@ const getInventory = asyncHandler(async(req, res) => {
 //@access public
 const createInventory = asyncHandler(async (req, res) => {
     console.log("The request body:", req.body)
-    const {item, location} = req.body
-    if(!item || !location) {
+    const { item, location } = req.body
+    if (!item || !location) {
         res.status(400)
         throw new Error("All fields are mandatory")
     }
@@ -22,22 +22,22 @@ const createInventory = asyncHandler(async (req, res) => {
 //@desc Get an inventory
 //@route GET /api/inventory/:id
 //@access public
-const getaInventory = asyncHandler(async(req, res) => {
+const getaInventory = asyncHandler(async (req, res) => {
     res.status(200).json({ message: `Get inventory for ${req.params.id}` })
 })
 
 //@desc update an inventory
 //@route PUT /api/inventory/:id
 //@access public
-const updateInventory = asyncHandler(async(req, res) => {
+const updateInventory = asyncHandler(async (req, res) => {
     res.status(200).json({ message: `updated ${req.params.id}` })
 })
 
 //@desc delete an inventory
 //@route PUT /api/inventory/:id
 //@access public
-const deleteInventory = asyncHandler(async(req, res) => {
+const deleteInventory = asyncHandler(async (req, res) => {
     res.status(200).json({ message: `Delete inventory for ${req.params.id}` })
 })
 
-module.exports = { getInventory, createInventory ,getaInventory, updateInventory, deleteInventory}
+export { getInventory, createInventory, getaInventory, updateInventory, deleteInventory }
