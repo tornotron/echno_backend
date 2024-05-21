@@ -13,5 +13,5 @@ app.use(errorHandler)
 app.listen(port, () => {
     console.log(`Server is running at port: ${port}`)
 })
-let userIds = await fetchUserIds()
-console.log(userIds)
+// let userIds = await fetchUserIds()
+// console.log(userIds)

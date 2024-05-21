@@ -20,15 +20,44 @@ async function fetchUserIds() {
     }
 }
 
-async function inventoryCreate(location,itemJSON) {
+async function inventoryCreate(item, location, itemJSON) {
     try {
         const inventoryDb = db.collection('inventory')
-        const res = await inventoryDb.doc(location).set(itemJSON)
-        return res
+        await inventoryDb.doc(location).set({ location: location })
+        await inventoryDb.doc(location).collection('machines').doc(item).set(itemJSON)
     } catch (error) {
         console.error("Error creating items in inventory", error)
     }
 }
 
+async function inventoryFetch() {
+    try {
+        const inventoryRef = db.collection('inventory')
+        const snapshot = await inventoryRef.get()
+        if (snapshot.empty) {
+            console.log("No document exists")
+            return
+        }
+        const inventoryData = []
+        for (const doc of snapshot.docs) {
+            const subcollectionData = {}
+            const subcollectionRef = doc.ref.collection('machines')
+            const subsnapshot = await subcollectionRef.get()
 
-export {fetchUserIds, inventoryCreate}
+            if(subsnapshot.empty) {
+                console.log(`No documents found in subcollection 'machines' for document ${doc.id}`);
+            } else {
+                subsnapshot.forEach(subDoc => {
+                    subcollectionData[subDoc.id] = subDoc.data()
+                })
+            }
+            inventoryData.push(subcollectionData)
+        }
+        return inventoryData
+    } catch (error) {
+        console.error("Error fetching inventory items", error)
+    }
+}
+
+
+export { fetchUserIds, inventoryCreate, inventoryFetch }

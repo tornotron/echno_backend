@@ -1,10 +1,11 @@
 import asyncHandler from "express-async-handler"
-import { inventoryCreate } from "../db/database.js"
+import { inventoryCreate , inventoryFetch} from "../db/database.js"
 //@desc Get all the inventory
 //@route GET /api/inventory
 //@access public
 const getInventory = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: "Get all inventory" })
+    const inventoryData = await inventoryFetch()
+    res.status(200).json(inventoryData)
 })
 
 //@desc Create new inventory
@@ -22,7 +23,7 @@ const createInventory = asyncHandler(async (req, res) => {
         location: location,
         statusOfItem: statusOfItem
     }
-    await inventoryCreate(location, itemJSON)
+    await inventoryCreate(item,location, itemJSON)
     res.status(201).json({
         message: `Item added to ${location} inventory: ${item}`
     })
