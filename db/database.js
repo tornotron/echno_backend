@@ -34,8 +34,7 @@ async function inventoryFetch() {
     try {
         const inventoryRef = db.collection('inventory')
         const snapshot = await inventoryRef.get()
-        const snapshotArray =  snapshot.docs.map(doc => doc.data())
-        const subcollectionDataMap = {}
+        // const snapshotArray =  snapshot.docs.map(doc => doc.data())
         if (snapshot.empty) {
             console.log("No document exists")
             return
@@ -45,7 +44,7 @@ async function inventoryFetch() {
             const subcollectionData = {}
             const subcollectionRef = doc.ref.collection('machines')
             const subsnapshot = await subcollectionRef.get()
-            
+            const subcollectionDataMap = {}
 
             if(subsnapshot.empty) {
                 console.log(`No documents found in subcollection 'machines' for document ${doc.id}`);
@@ -55,14 +54,9 @@ async function inventoryFetch() {
                     subcollectionData[subDoc.id] = subDoc.data()
                 })             
             }           
-            inventoryData.push(subcollectionData) 
-            
+            subcollectionDataMap[doc.id] = subcollectionData
+            inventoryData.push(subcollectionDataMap)
         }
-        snapshot.forEach((snap,index) => {
-            console.log(index)
-                    subcollectionDataMap[snap.id] = inventoryData[index]
-            })
-            console.log(subcollectionDataMap)
         return inventoryData
     } catch (error) {
         console.error("Error fetching inventory items", error)
