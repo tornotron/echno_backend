@@ -1,6 +1,6 @@
+import 'dotenv/config'
 import express, { json } from "express";
 import { errorHandler } from "./middleware/errorHandler.js";
-import 'dotenv/config'
 import inventoryRoutes from './routes/inventoryRoutes.js';
 import {fetchUserIds} from './db/database.js';
 
