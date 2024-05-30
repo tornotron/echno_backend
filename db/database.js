@@ -1,5 +1,6 @@
 import admin from "firebase-admin"
-import serviceAccount from "../.firebaseKey/serviceAccountKey.json" assert { type: 'json' };
+import serviceAccount from "../.firebaseKey/serviceAccountKey.json" assert { type: 'json' }
+
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
@@ -43,16 +44,16 @@ async function inventoryFetch() {
             const subcollectionData = {}
             const subcollectionRef = doc.ref.collection('machines')
             const subsnapshot = await subcollectionRef.get()
-            
 
-            if(subsnapshot.empty) {
+
+            if (subsnapshot.empty) {
                 console.log(`No documents found in subcollection 'machines' for document ${doc.id}`);
                 return
             } else {
                 subsnapshot.forEach(subDoc => {
                     subcollectionData[subDoc.id] = subDoc.data()
-                })             
-            }                      
+                })
+            }
             subcollectionDataMap[doc.id] = subcollectionData
         }
         return subcollectionDataMap
@@ -61,5 +62,39 @@ async function inventoryFetch() {
     }
 }
 
+async function inventoryRequest(newRequest) {
+    try {
+        const inventoryRequestdb = db.collection('inventoryRequests')
+        await inventoryRequestdb.doc(newRequest.requestId).set(newRequest)
+    } catch (error) {
+        console.log("Error creating inventory request", error)
+    }
+}
 
-export { fetchUserIds, inventoryCreate, inventoryFetch }
+async function inventoryRequestForward(requestId) {
+    try {
+        const inventoryRequestForwarddb = db.collection('inventoryRequests')
+        await inventoryRequestForwarddb.doc(requestId).update({ status: "forwarded" })
+
+    } catch (error) {
+        console.log("Error forwarding inventory request", error)
+    }
+}
+
+async function checkRequestFetch() {
+    try {
+        const checkRequestdb = db.collection('inventoryRequests')
+        const snapshot = await checkRequestdb.get()
+        snapshot.forEach(doc => {
+            console.log(doc.data())
+        })
+       
+
+    } catch (error) {
+        console.log("Error fetching inventory requests", error)
+    }
+}
+
+
+
+export { fetchUserIds, inventoryCreate, inventoryFetch, inventoryRequest, inventoryRequestForward , checkRequestFetch}
