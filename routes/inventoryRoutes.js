@@ -1,5 +1,6 @@
 import { Router } from "express"
-import { getInventory, createInventory, getaInventory, updateInventory, deleteInventory , createInventoryRequest, forwardInventoryRequest, checkRequest} from "../controller/inventoryController.js"
+import { getInventory, createInventory, getaInventory, updateInventory, deleteInventory , createInventoryRequest, forwardInventoryRequest, getInventoryRequestStatus, storeInventoryResponse} from "../controller/inventoryController.js"
+
 const router = Router()
 
 router.route('/fetch').get(getInventory)
@@ -14,8 +15,11 @@ router.route('/delete/:id').delete(deleteInventory)
 
 router.route('/request').post(createInventoryRequest)
 
-router.route('/:requestId/forward').put(forwardInventoryRequest)
+router.route('/:requestId/forward').post(forwardInventoryRequest)
 
-router.route('/checkrequest').get(checkRequest)
+router.route('/requestStatus').get(getInventoryRequestStatus)
+
+router.route('/requestStatus/:requestId/storeInventoryResponse').post(storeInventoryResponse)
+
 
 export default router

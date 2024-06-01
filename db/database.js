@@ -71,30 +71,40 @@ async function inventoryRequest(newRequest) {
     }
 }
 
-async function inventoryRequestForward(requestId) {
+async function inventoryRequestForward(requestId, location) {
     try {
         const inventoryRequestForwarddb = db.collection('inventoryRequests')
-        await inventoryRequestForwarddb.doc(requestId).update({ status: "forwarded" })
+        await inventoryRequestForwarddb.doc(requestId).set({ status: "forwarded", location: location },{merge:true})
 
     } catch (error) {
         console.log("Error forwarding inventory request", error)
     }
 }
 
-async function checkRequestFetch() {
-    try {
-        const checkRequestdb = db.collection('inventoryRequests')
-        const snapshot = await checkRequestdb.get()
+async function inventoryRequestStatus() {
+    try{
+        const inventoryRequestdb = db.collection('inventoryRequests')
+        const snapshot = await inventoryRequestdb.get()
+        const statusMap = {}
         snapshot.forEach(doc => {
-            console.log(doc.data())
+            statusMap[doc.id] = doc.data()
         })
-       
+        return statusMap
+    } catch(error) {
+        console.log("Error fetching inventory request status", error)
+    }
+}
 
-    } catch (error) {
-        console.log("Error fetching inventory requests", error)
+async function storeResponse(requestId, availableItems) {
+    try {
+        const storeResponsedb = db.collection('inventoryRequests')
+        await storeResponsedb.doc(requestId).set({ status: "completed", availableItems: availableItems},{merge:true})
+    } catch(error) {
+        console.log("Error storing inventory response", error)
     }
 }
 
 
 
-export { fetchUserIds, inventoryCreate, inventoryFetch, inventoryRequest, inventoryRequestForward , checkRequestFetch}
+
+export { fetchUserIds, inventoryCreate, inventoryFetch, inventoryRequest, inventoryRequestForward, inventoryRequestStatus , storeResponse}
