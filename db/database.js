@@ -150,6 +150,15 @@ async function storeResponse(requestId, availableItems) {
     }
 }
 
+/**
+ * Asynchronously deletes an inventory item with the given location and item names.
+ *
+ * @param {string} location - The location of the inventory item to delete.
+ * @param {string} item - The name of the inventory item to delete.
+ * @return {Promise<*>} A Promise that resolves to the result of the deletion operation. If the item does not exist,
+ * the Promise resolves to the string "No such document".
+ * @throws {Error} If there is an error deleting the item.
+ */
 async function inventoryItemDelete(location, item) {
     try {
         const inventoryDeleteRef = db.collection('inventory')
