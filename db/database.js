@@ -21,6 +21,14 @@ async function fetchUserIds() {
     }
 }
 
+/**
+ * Asynchronously creates a new item in the inventory with the given item, location, and JSON data.
+ *
+ * @param {string} item - The name of the item to be created.
+ * @param {string} location - The location where the item will be stored.
+ * @param {Object} itemJSON - The JSON data for the item.
+ * @return {Promise<void>} A Promise that resolves when the item has been successfully created.
+ */
 async function inventoryCreate(item, location, itemJSON) {
     try {
         const inventoryDb = db.collection('inventory')
@@ -31,6 +39,14 @@ async function inventoryCreate(item, location, itemJSON) {
     }
 }
 
+/**
+ * Asynchronously fetches all the inventory items and their associated subcollections.
+ *
+ * @return {Promise<Object>} A Promise that resolves to an object mapping each location document ID
+ * to an object mapping each machine document ID to its associated data. If no documents exist,
+ * an empty object is returned.
+ * @throws {Error} If there is an error fetching the data.
+ */
 async function inventoryFetch() {
     try {
         const inventoryRef = db.collection('inventory')
@@ -62,6 +78,13 @@ async function inventoryFetch() {
     }
 }
 
+/**
+ * Asynchronously creates a new inventory request with the given JSON data.
+ *
+ * @param {Object} newRequest - The JSON data for the new request.
+ * @return {Promise<void>} A Promise that resolves when the request has been successfully created.
+ * @throws {Error} If there is an error creating the request.
+ */
 async function inventoryRequest(newRequest) {
     try {
         const inventoryRequestdb = db.collection('inventoryRequests')
@@ -71,6 +94,14 @@ async function inventoryRequest(newRequest) {
     }
 }
 
+/**
+ * Asynchronously forwards an inventory request to the specified location.
+ *
+ * @param {string} requestId - The ID of the request to forward.
+ * @param {string} location - The location to which the request is being forwarded.
+ * @return {Promise<void>} A Promise that resolves when the request has been successfully forwarded.
+ * @throws {Error} If there is an error forwarding the request.
+ */
 async function inventoryRequestForward(requestId, location) {
     try {
         const inventoryRequestForwarddb = db.collection('inventoryRequests')
@@ -81,6 +112,13 @@ async function inventoryRequestForward(requestId, location) {
     }
 }
 
+/**
+ * Asynchronously fetches the status of all inventory requests.
+ *
+ * @return {Promise<Object>} A Promise that resolves to an object mapping each request document ID
+ * to its associated data. If no documents exist, an empty object is returned.
+ * @throws {Error} If there is an error fetching the data.
+ */
 async function inventoryRequestStatus() {
     try{
         const inventoryRequestdb = db.collection('inventoryRequests')
@@ -95,6 +133,14 @@ async function inventoryRequestStatus() {
     }
 }
 
+/**
+ * Asynchronously stores the inventory response for a given request ID and available items.
+ *
+ * @param {string} requestId - The ID of the inventory request.
+ * @param {Array} availableItems - The list of available items.
+ * @return {Promise<void>} A Promise that resolves when the inventory response has been successfully stored.
+ * @throws {Error} If there is an error storing the inventory response.
+ */
 async function storeResponse(requestId, availableItems) {
     try {
         const storeResponsedb = db.collection('inventoryRequests')

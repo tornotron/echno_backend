@@ -2,6 +2,15 @@ import {constants} from "../constants.js"
 
 
 
+/**
+ * Error handler middleware function.
+ *
+ * @param {Error} err - The error object.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {void}
+ */
 const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500
     switch (statusCode) {

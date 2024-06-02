@@ -5,6 +5,13 @@ import { v4 as uuidv4 } from 'uuid'
 //@desc Get all the inventory
 //@route GET /api/inventory
 //@access public
+/**
+ * Handles the GET request for fetching all inventory items.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const getInventory = asyncHandler(async (req, res) => {
     const inventoryData = await inventoryFetch()
     res.status(200).json(inventoryData)
@@ -13,6 +20,13 @@ const getInventory = asyncHandler(async (req, res) => {
 //@desc Create new inventory
 //@route POST /api/inventory
 //@access public
+/**
+ * Handles the POST request for creating a new inventory item.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const createInventory = asyncHandler(async (req, res) => {
     console.log("The request body:", req.body)
     const { item, location, statusOfItem } = req.body
@@ -34,6 +48,13 @@ const createInventory = asyncHandler(async (req, res) => {
 //@dec Create inventory request
 //@route POST /api/inventory/request
 //@access public
+/**
+ * Handles the POST request for creating a new inventory request.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const createInventoryRequest = asyncHandler(async (req, res) => {
     console.log("The request body:", req.body)
     const requestId = uuidv4()
@@ -50,6 +71,13 @@ const createInventoryRequest = asyncHandler(async (req, res) => {
 //@desc Forward inventory request
 //@route PUT /api/inventory/:requestId/forward
 //@access public
+/**
+ * Handles the PUT request for forwarding an inventory request.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const forwardInventoryRequest = asyncHandler(async (req, res) => {
     console.log("The request body:", req.body)
     const { location } = req.body
@@ -64,6 +92,13 @@ const forwardInventoryRequest = asyncHandler(async (req, res) => {
 //@desc Get all inventory requests status
 //@route GET /api/inventory/requestStatus
 //@access public 
+/**
+ * Handles the GET request for fetching all inventory requests status.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const getInventoryRequestStatus = asyncHandler(async (req, res) => {
     const inventoryRequestStatusData = await inventoryRequestStatus()
     res.status(200).json(inventoryRequestStatusData)
@@ -72,6 +107,13 @@ const getInventoryRequestStatus = asyncHandler(async (req, res) => {
 //@desc Response from the store for specific inventory request
 //@route POST /requestStatus/:requestId/storeInventoryResponse
 //@access public
+/**
+ * Handles the POST request for storing an inventory response.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const storeInventoryResponse = asyncHandler(async (req, res) => {
     console.log("The request body:", req.body)
     const {availableItems} = req.body
@@ -86,6 +128,13 @@ const storeInventoryResponse = asyncHandler(async (req, res) => {
 //@desc Get an inventory
 //@route GET /api/inventory/:id
 //@access public
+/**
+ * Handles the GET request for fetching a specific inventory item.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const getaInventory = asyncHandler(async (req, res) => {
     res.status(200).json({ message: `Get inventory for ${req.params.id}` })
 })
@@ -93,6 +142,13 @@ const getaInventory = asyncHandler(async (req, res) => {
 //@desc update an inventory
 //@route PUT /api/inventory/:id
 //@access public
+/**
+ * Handles the PUT request for updating a specific inventory item.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const updateInventory = asyncHandler(async (req, res) => {
     res.status(200).json({ message: `updated ${req.params.id}` })
 })
@@ -100,6 +156,13 @@ const updateInventory = asyncHandler(async (req, res) => {
 //@desc delete an inventory
 //@route PUT /api/inventory/:id
 //@access public
+/**
+ * Handles the PUT request for deleting a specific inventory item.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const deleteInventory = asyncHandler(async (req, res) => {
     res.status(200).json({ message: `Delete inventory for ${req.params.id}` })
 })
