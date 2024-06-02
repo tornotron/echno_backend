@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler"
-import { inventoryCreate, inventoryFetch, inventoryRequest, inventoryRequestForward, inventoryRequestStatus, storeResponse} from "../db/database.js"
+import { inventoryCreate, inventoryFetch, inventoryRequest, inventoryRequestForward, inventoryRequestStatus, storeResponse, inventoryItemDelete} from "../db/database.js"
 import { v4 as uuidv4 } from 'uuid'
 
 //@desc Get all the inventory
@@ -164,7 +164,13 @@ const updateInventory = asyncHandler(async (req, res) => {
  * @returns {Promise<void>} - A promise that resolves when the response is sent.
  */
 const deleteInventory = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: `Delete inventory for ${req.params.id}` })
+    const result = await inventoryItemDelete(req.params.location, req.params.item)
+    console.log(result)
+    if(result == 'No such document') {
+     res.status(400)
+     throw new Error("No such item exists at inventory")
+    }
+    res.status(200).json({ message: `Delete inventory for ${req.params.location}` })
 })
 
 export { getInventory, createInventory, getaInventory, updateInventory, deleteInventory, createInventoryRequest, forwardInventoryRequest, getInventoryRequestStatus, storeInventoryResponse}

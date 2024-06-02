@@ -11,7 +11,7 @@ router.route('/create').post(createInventory)
 
 router.route('/update/:id').put(updateInventory)
 
-router.route('/delete/:id').delete(deleteInventory)
+router.route('/delete/:location/:item').delete(deleteInventory)
 
 router.route('/request').post(createInventoryRequest)
 

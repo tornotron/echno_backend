@@ -150,7 +150,22 @@ async function storeResponse(requestId, availableItems) {
     }
 }
 
+async function inventoryItemDelete(location, item) {
+    try {
+        const inventoryDeleteRef = db.collection('inventory')
+        const snapshot = await inventoryDeleteRef.doc(location).collection('machines').doc(item).get()
+        if (!snapshot.exists) {
+            console.log("No such document")
+            return 'No such document'
+        }
+        const result = await inventoryDeleteRef.doc(location).collection('machines').doc(item).delete()
+        return result
+    } catch(error) {
+        console.log("Error deleting inventory item", error)
+    }
+}
 
 
 
-export { fetchUserIds, inventoryCreate, inventoryFetch, inventoryRequest, inventoryRequestForward, inventoryRequestStatus , storeResponse}
+
+export { fetchUserIds, inventoryCreate, inventoryFetch, inventoryRequest, inventoryRequestForward, inventoryRequestStatus , storeResponse, inventoryItemDelete}
