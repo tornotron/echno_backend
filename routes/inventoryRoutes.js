@@ -5,7 +5,7 @@ const router = Router()
 
 router.route('/fetch').get(getInventory)
 
-// router.route('/:id').get(getaInventory)
+// router.route('/fetch/:id').get(getaInventory)
 
 router.route('/create').post(createInventory)
 
