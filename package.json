@@ -19,6 +19,7 @@
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
     "firebase-admin": "^12.1.0",
+    "pg": "^8.11.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

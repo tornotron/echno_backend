@@ -4,7 +4,6 @@ import { availableParallelism } from 'node:os';
 import express, { json } from "express";
 import { errorHandler } from "./middleware/errorHandler.js";
 import inventoryRoutes from './routes/inventoryRoutes.js';
-import { fetchUserIds } from './db/database.js';
 
 
 const numCPUs = availableParallelism();
