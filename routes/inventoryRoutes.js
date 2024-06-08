@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getInventory, createInventory, getaInventory, updateInventory, deleteInventory , createInventoryRequest, forwardInventoryRequest, getInventoryRequestStatus, storeInventoryResponse} from "../controller/inventoryController.js"
+import { getInventory, createInventory, getaInventory, updateInventory, deleteInventory, createInventoryRequest, forwardInventoryRequest, getInventoryRequestStatus, storeInventoryResponse, centralStoreInventoryResponse } from "../controller/inventoryController.js"
 
 const router = Router()
 
@@ -19,7 +19,7 @@ router.route('/:requestId/forward').post(forwardInventoryRequest)
 
 router.route('/requestStatus').get(getInventoryRequestStatus)
 
-router.route('/requestStatus/:requestId/storeInventoryResponse').post(storeInventoryResponse)
+router.route('/requestStatus/:requestId/centralStoreInventoryResponse').post(centralStoreInventoryResponse)
 
 
 export default router

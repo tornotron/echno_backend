@@ -135,7 +135,7 @@ const getInventoryRequestStatus = asyncHandler(async (req, res) => {
  * @param {Object} res - The response object.
  * @returns {Promise<void>} - A promise that resolves when the response is sent.
  */
-const storeInventoryResponse = asyncHandler(async (req, res) => {
+const centralStoreInventoryResponse = asyncHandler(async (req, res) => {
   console.log("The request body:", req.body)
   const { availableItems } = req.body
   if (!availableItems) {
@@ -194,4 +194,4 @@ const deleteInventory = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Delete inventory for ${req.params.location}` })
 })
 
-export { getInventory, createInventory, getaInventory, updateInventory, deleteInventory, createInventoryRequest, forwardInventoryRequest, getInventoryRequestStatus, storeInventoryResponse }
+export { getInventory, createInventory, getaInventory, updateInventory, deleteInventory, createInventoryRequest, forwardInventoryRequest, getInventoryRequestStatus, centralStoreInventoryResponse }
