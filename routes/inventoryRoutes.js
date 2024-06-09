@@ -9,7 +9,6 @@ import {
   forwardInventoryRequest,
   getInventoryRequestStatus,
   centralStoreInventoryResponse,
-  centralStoreInventoryResponse,
 } from "../controller/inventoryController.js";
 
 const router = Router();
