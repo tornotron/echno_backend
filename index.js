@@ -5,9 +5,11 @@ import express, { json } from "express";
 import { errorHandler } from "./middleware/errorHandler.js";
 import inventoryRoutes from "./routes/inventoryRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
+import { dbsetup } from "./db/database.js";
 
 const numCPUs = availableParallelism();
 
+await dbsetup();
 const app = express();
 const port = process.env.PORT;
 app.use(json());

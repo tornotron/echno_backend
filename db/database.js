@@ -13,5 +13,20 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-export default pool;
+async function dbsetup() {
+  try {
+    await pool.query(
+      `CREATE TABLE inventory (item_id UUID PRIMARY KEY,item_name VARCHAR(255),location VARCHAR(255),statusofitem BOOLEAN)`,
+    );
+    await pool.query(
+      `CREATE TABLE inventoryrequests (request_id UUID PRIMARY KEY,requested_items TEXT[],status VARCHAR(255),location VARCHAR(255),available_items json)`,
+    );
+    await pool.query(
+      `CREATE TABLE employees (employee_id UUID PRIMARY KEY,employee_name VARCHAR(255),employee_role VARCHAR(255),employee_status BOOLEAN,company_email VARCHAR(255),phone_number VARCHAR(255))`,
+    );
+  } catch (error) {
+    console.error(`Error creating database: ${error.message}`);
+  }
+}
 
+export { pool, dbsetup };
