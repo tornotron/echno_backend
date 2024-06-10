@@ -4,6 +4,7 @@ import { availableParallelism } from "node:os";
 import express, { json } from "express";
 import { errorHandler } from "./middleware/errorHandler.js";
 import inventoryRoutes from "./routes/inventoryRoutes.js";
+import employeeRoutes from "./routes/employeeRoutes.js";
 
 const numCPUs = availableParallelism();
 
@@ -11,6 +12,7 @@ const app = express();
 const port = process.env.PORT;
 app.use(json());
 app.use("/api/inventory", inventoryRoutes);
+app.use("/api/employee", employeeRoutes);
 app.use(errorHandler);
 
 if (cluster.isPrimary) {
