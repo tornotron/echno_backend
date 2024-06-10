@@ -7,7 +7,7 @@ import {
   inventoryRequestStatus,
   storeResponse,
   inventoryItemDelete,
-} from "../db/firestore_database.js";
+} from "../db/nosql_domain/inventory_firestore_database.js";
 import {
   PinventoryCreate,
   PinventoryFetch,
@@ -17,7 +17,7 @@ import {
   PinventoryRequestfetch,
   PspecificInventoryRequestfetch,
   PstoreResponse,
-} from "../db/postgres_database.js";
+} from "../db/relational_domain/inventory_postgres_database.js";
 import { v4 as uuidv4 } from "uuid";
 
 //@desc Get all the inventory
