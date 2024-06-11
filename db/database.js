@@ -15,15 +15,37 @@ const pool = new Pool({
 
 async function dbsetup() {
   try {
-    await pool.query(
-      `CREATE TABLE inventory (item_id UUID PRIMARY KEY,item_name VARCHAR(255),location VARCHAR(255),statusofitem BOOLEAN)`,
+    const inventorydbcheck = await pool.query(
+      `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'inventory') AS table_existence`,
     );
-    await pool.query(
-      `CREATE TABLE inventoryrequests (request_id UUID PRIMARY KEY,requested_items TEXT[],status VARCHAR(255),location VARCHAR(255),available_items json)`,
+    if (inventorydbcheck.rows[0]["table_existence"] == true) {
+      console.log("Inventory table exists");
+    } else {
+      await pool.query(
+        `CREATE TABLE inventory (item_id UUID PRIMARY KEY,item_name VARCHAR(255),location VARCHAR(255),statusofitem BOOLEAN)`,
+      );
+    }
+    const inventoryrequestsdbcheck = await pool.query(
+      `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'inventoryrequests') AS table_existence`,
     );
-    await pool.query(
-      `CREATE TABLE employees (employee_id UUID PRIMARY KEY,employee_name VARCHAR(255),employee_role VARCHAR(255),employee_status BOOLEAN,company_email VARCHAR(255),phone_number VARCHAR(255))`,
+    if (inventoryrequestsdbcheck.rows[0]["table_existence"] == true) {
+      console.log("Inventoryrequests table exists");
+    } else {
+      await pool.query(
+        `CREATE TABLE inventoryrequests (request_id UUID PRIMARY KEY,requested_items TEXT[],status VARCHAR(255),location VARCHAR(255),available_items json)`,
+      );
+    }
+
+    const employeesdbcheck = await pool.query(
+      `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'employees') AS table_existence`,
     );
+    if (employeesdbcheck.rows[0]["table_existence"] == true) {
+      console.log("employees table exists");
+    } else {
+      await pool.query(
+        `CREATE TABLE employees (employee_id UUID PRIMARY KEY,employee_name VARCHAR(255),employee_role VARCHAR(255),employee_status BOOLEAN,company_email VARCHAR(255),phone_number VARCHAR(255))`,
+      );
+    }
   } catch (error) {
     console.error(`Error creating database: ${error.message}`);
   }
