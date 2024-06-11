@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import {
   PemployeedbCreate,
   Pemployeefetch,
+  PemployeeSpecificFetch,
 } from "../db/relational_domain/employee_postgres_database.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -40,8 +41,29 @@ const dbCreate = asyncHandler(async (req, res) => {
 });
 
 const getEmployees = asyncHandler(async (req, res) => {
-  const employee = await Pemployeefetch();
-  res.status(200).json(employee);
+  const {
+    employeeId,
+    employeeName,
+    employeeRole,
+    employeeStatus,
+    companyEmail,
+    phoneNumber,
+  } = req.query;
+
+  const filteredParams = {};
+  if (employeeId) filteredParams.employeeId = employeeId;
+  if (employeeName) filteredParams.employeeName = employeeName;
+  if (employeeRole) filteredParams.employeeRole = employeeRole;
+  if (employeeStatus) filteredParams.employeeStatus = employeeStatus;
+  if (companyEmail) filteredParams.companyEmail = companyEmail;
+  if (phoneNumber) filteredParams.phoneNumber = phoneNumber;
+  if (Object.keys(filteredParams).length > 0) {
+    const specificEmployeeData = await PemployeeSpecificFetch(filteredParams);
+    res.status(200).json(specificEmployeeData);
+  } else {
+    const employee = await Pemployeefetch();
+    res.status(200).json(employee);
+  }
 });
 
 export { dbCreate, getEmployees };

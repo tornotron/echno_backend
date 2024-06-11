@@ -27,4 +27,72 @@ async function Pemployeefetch() {
   }
 }
 
-export { PemployeedbCreate, Pemployeefetch };
+async function PemployeeSpecificFetch(filteredParams) {
+  try {
+    if (
+      filteredParams.employeeName &&
+      filteredParams.employeeRole &&
+      filteredParams.employeeStatus &&
+      filteredParams.companyEmail &&
+      filteredParams.phoneNumber
+    ) {
+      const result = await pool.query(
+        `SELECT * FROM employees WHERE employee_name = $1 AND employee_role = $2 AND employee_status = $3 AND company_email = $4 AND phone_number = $5`,
+        [
+          filteredParams.employeeName,
+          filteredParams.employeeRole,
+          filteredParams.employeeStatus,
+          filteredParams.companyEmail,
+          filteredParams.phoneNumber,
+        ],
+      );
+      return result.rows;
+    }
+    if (filteredParams.employeeId) {
+      const result = await pool.query(
+        `SELECT * FROM employees WHERE employee_id = $1`,
+        [filteredParams.employeeId],
+      );
+      return result.rows;
+    }
+    if (filteredParams.employeeName) {
+      const result = await pool.query(
+        `SELECT * FROM employees WHERE employee_name = $1`,
+        [filteredParams.employeeName],
+      );
+      return result.rows;
+    }
+    if (filteredParams.employeeRole) {
+      const result = await pool.query(
+        `SELECT * FROM employees WHERE employee_role = $1`,
+        [filteredParams.employeeRole],
+      );
+      return result.rows;
+    }
+    if (filteredParams.employeeStatus) {
+      const result = await pool.query(
+        `SELECT * FROM employees WHERE employee_status = $1`,
+        [filteredParams.employeeStatus],
+      );
+      return result.rows;
+    }
+    if (filteredParams.companyEmail) {
+      const result = await pool.query(
+        `SELECT * FROM employees WHERE company_email = $1`,
+        [filteredParams.companyEmail],
+      );
+      return result.rows;
+    }
+    if (filteredParams.phoneNumber) {
+      const result = await pool.query(
+        `SELECT * FROM employees WHERE phone_number = $1`,
+        [filteredParams.phoneNumber],
+      );
+      return result.rows;
+    }
+  } catch (error) {
+    console.error("Error fetching employees");
+  }
+}
+
+export { PemployeedbCreate, Pemployeefetch, PemployeeSpecificFetch };
