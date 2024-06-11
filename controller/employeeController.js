@@ -1,5 +1,8 @@
 import asyncHandler from "express-async-handler";
-import { PemployeedbCreate } from "../db/relational_domain/employee_postgres_database.js";
+import {
+  PemployeedbCreate,
+  Pemployeefetch,
+} from "../db/relational_domain/employee_postgres_database.js";
 import { v4 as uuidv4 } from "uuid";
 
 const dbCreate = asyncHandler(async (req, res) => {
@@ -30,8 +33,15 @@ const dbCreate = asyncHandler(async (req, res) => {
     phoneNumber: phoneNumber,
   };
   await PemployeedbCreate(employee);
-  res.status(200).json({ message: "yup" });
+  res
+    .status(200)
+    .json({ message: "Employee created successfully", employeeId: employeeId });
   console.log(employee);
 });
 
-export { dbCreate };
+const getEmployees = asyncHandler(async (req, res) => {
+  const employee = await Pemployeefetch();
+  res.status(200).json(employee);
+});
+
+export { dbCreate, getEmployees };

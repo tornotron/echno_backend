@@ -18,4 +18,13 @@ async function PemployeedbCreate(employee) {
   }
 }
 
-export { PemployeedbCreate };
+async function Pemployeefetch() {
+  try {
+    const employeeData = await pool.query(`SELECT * FROM employees`);
+    return employeeData.rows;
+  } catch (error) {
+    console.error("Error fetching employees");
+  }
+}
+
+export { PemployeedbCreate, Pemployeefetch };
