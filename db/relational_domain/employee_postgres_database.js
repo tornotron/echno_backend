@@ -104,9 +104,20 @@ async function PemployeeUpdate(updateData, colName) {
   console.error("Error updating employee");
 }
 
+async function PemployeeDelete(employeeId) {
+  try {
+    await pool.query(`DELETE FROM employees WHERE employee_id = $1`, [
+      employeeId,
+    ]);
+  } catch (error) {
+    console.error("Error deleting employee");
+  }
+}
+
 export {
   PemployeedbCreate,
   Pemployeefetch,
   PemployeeSpecificFetch,
   PemployeeUpdate,
+  PemployeeDelete,
 };

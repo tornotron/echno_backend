@@ -4,6 +4,7 @@ import {
   Pemployeefetch,
   PemployeeSpecificFetch,
   PemployeeUpdate,
+  PemployeeDelete,
 } from "../db/relational_domain/employee_postgres_database.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -123,4 +124,16 @@ const updateEmployees = asyncHandler(async (req, res) => {
   }
 });
 
-export { dbCreate, getEmployees, updateEmployees };
+const deleteEmployees = asyncHandler(async (req, res) => {
+  const { employeeId } = req.body;
+  if (!employeeId) {
+    res.status(400);
+    throw new Error("Employee ID is required");
+  }
+  await PemployeeDelete(employeeId);
+  res.status(200).json({
+    message: `Employee deleted successfully`,
+  });
+});
+
+export { dbCreate, getEmployees, updateEmployees, deleteEmployees };
