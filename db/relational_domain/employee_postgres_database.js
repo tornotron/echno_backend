@@ -95,4 +95,18 @@ async function PemployeeSpecificFetch(filteredParams) {
   }
 }
 
-export { PemployeedbCreate, Pemployeefetch, PemployeeSpecificFetch };
+async function PemployeeUpdate(updateData, colName) {
+  try {
+    const column_name = colName;
+    const query = `UPDATE employees SET ${column_name} = $1 WHERE employee_id = $2`;
+    await pool.query(query, [updateData[colName], updateData["employee_id"]]);
+  } catch (error) {}
+  console.error("Error updating employee");
+}
+
+export {
+  PemployeedbCreate,
+  Pemployeefetch,
+  PemployeeSpecificFetch,
+  PemployeeUpdate,
+};
