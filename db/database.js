@@ -24,6 +24,7 @@ async function dbsetup() {
       await pool.query(
         `CREATE TABLE inventory (item_id UUID PRIMARY KEY,item_name VARCHAR(255),location VARCHAR(255),statusofitem BOOLEAN)`,
       );
+      console.log("Inventory table created");
     }
     const inventoryrequestsdbcheck = await pool.query(
       `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'inventoryrequests') AS table_existence`,
@@ -34,6 +35,7 @@ async function dbsetup() {
       await pool.query(
         `CREATE TABLE inventoryrequests (request_id UUID PRIMARY KEY,requested_items TEXT[],status VARCHAR(255),location VARCHAR(255),available_items json)`,
       );
+      console.log("Inventoryrequests table created");
     }
 
     const employeesdbcheck = await pool.query(
@@ -45,6 +47,19 @@ async function dbsetup() {
       await pool.query(
         `CREATE TABLE employees (employee_id UUID PRIMARY KEY,employee_name VARCHAR(255),employee_role VARCHAR(255),employee_status BOOLEAN,company_email VARCHAR(255),phone_number VARCHAR(255))`,
       );
+      console.log("employees table created");
+    }
+
+    const userdbcheck = await pool.query(
+      `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'users') AS table_existence`,
+    );
+    if (userdbcheck.rows[0]["table_existence"] == true) {
+      console.log("users table exists");
+    } else {
+      await pool.query(
+        `CREATE TABLE users (user_name VARCHAR(255) PRIMARY KEY,salt VARCHAR(255),passhash VARCHAR(255))`,
+      );
+      console.log("users table created");
     }
   } catch (error) {
     console.error(`Error creating database: ${error.message}`);
